@@ -9,6 +9,27 @@ import { StorageClient } from "@caffeineai/object-storage";
 import { HttpAgent } from "@icp-sdk/core/agent";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+// ─── Candid Normalizer ────────────────────────────────────────────────────────
+
+/**
+ * The Motoko backend stores logoUrl, backgroundColor, backgroundImageUrl, and
+ * pdfMenuUrl as optional fields (?Text). At runtime the canister returns them
+ * as Candid optionals ([] | [string]), but the generated TypeScript declaration
+ * types them as plain strings. This helper coerces the raw runtime value of
+ * those four fields to a plain string so the rest of the app never sees arrays.
+ */
+function normalizeRestaurant(raw: Restaurant): Restaurant {
+  const opt = (v: unknown): string =>
+    Array.isArray(v) ? (v[0] ?? "") : ((v as string) ?? "");
+  return {
+    ...raw,
+    logoUrl: opt(raw.logoUrl),
+    backgroundColor: opt(raw.backgroundColor),
+    backgroundImageUrl: opt(raw.backgroundImageUrl),
+    pdfMenuUrl: opt(raw.pdfMenuUrl),
+  };
+}
+
 // ─── Query Key ───────────────────────────────────────────────────────────────
 
 const MY_RESTAURANT_KEY = ["myRestaurant"] as const;
@@ -27,6 +48,7 @@ type SaveRestaurantError =
 
 export interface SaveRestaurantResult {
   success: boolean;
+  restaurant?: Restaurant;
   error?: SaveRestaurantError;
   errorMessage?: string;
 }
@@ -49,7 +71,8 @@ export function useMyRestaurant() {
     queryKey: MY_RESTAURANT_KEY,
     queryFn: async (): Promise<Restaurant | null> => {
       if (!actor) return null;
-      return actor.getMyRestaurant();
+      const result = await actor.getMyRestaurant();
+      return result ? normalizeRestaurant(result) : null;
     },
     enabled: !!actor && !isActorLoading,
     staleTime: 2 * 60 * 1000,
@@ -81,7 +104,9 @@ export function useSaveRestaurant() {
 
       if (args.mode === "create") {
         const result = await actor.createRestaurant(args.input);
-        if (result.__kind__ === "ok") return { success: true };
+        if (result.__kind__ === "ok") {
+          return { success: true, restaurant: normalizeRestaurant(result.ok) };
+        }
         const err = result.err;
         return mapBackendError(
           err.__kind__,
@@ -93,7 +118,9 @@ export function useSaveRestaurant() {
         args.restaurantId,
         args.input,
       );
-      if (result.__kind__ === "ok") return { success: true };
+      if (result.__kind__ === "ok") {
+        return { success: true, restaurant: normalizeRestaurant(result.ok) };
+      }
       const err = result.err;
       return mapBackendError(
         err.__kind__,
@@ -102,7 +129,11 @@ export function useSaveRestaurant() {
     },
     onSuccess: (result) => {
       if (result.success) {
-        queryClient.invalidateQueries({ queryKey: MY_RESTAURANT_KEY });
+        if (result.restaurant) {
+          queryClient.setQueryData(MY_RESTAURANT_KEY, result.restaurant);
+        } else {
+          queryClient.invalidateQueries({ queryKey: MY_RESTAURANT_KEY });
+        }
       }
     },
   });

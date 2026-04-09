@@ -7,9 +7,9 @@ import MappingLib "lib/mapping";
 import RestaurantLib "lib/restaurant";
 import AuthMixin "mixins/auth-api";
 import RestaurantMixin "mixins/restaurant-api";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor {
   // Auth state: principal -> User
   let users : AuthLib.UserMap = Map.empty<Principal, AuthTypes.User>();
