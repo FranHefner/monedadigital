@@ -1,14 +1,18 @@
-// Version: 1.0.0
+// Version: 3.0.0
 type Data__791452850<K, V> =
   {var count : Nat__490723111; kvs : [var ?(K, V)]};
 type Internal__8484328<K, V> =
   {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
 type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
 type Nat__490723111 = Nat__920180692;
 type Nat__920180692 = Nat;
 type Node__46230540<K, V> =
   {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
-type Restaurant__761304188 =
+type OldRestaurant__138797074 =
   {
     backgroundColor : Text;
     backgroundImageUrl : Text;
@@ -21,10 +25,33 @@ type Restaurant__761304188 =
     pdfMenuUrl : Text;
     restaurantId : Text
   };
+type Restaurant__761304188 =
+  {
+    backgroundColor : Text;
+    backgroundImageUrl : Text;
+    city : Text;
+    createdAt : Int;
+    description : Text;
+    isActive : Bool;
+    logoUrl : Text;
+    name : Text;
+    pdfMenuUrl : Text;
+    restaurantId : Text;
+    slug : Text
+  };
 type UserRole__549269184 = {#KITCHEN; #MANAGER; #SUPER_ADMIN; #WAITER};
 type User__455962502 =
   {createdAt : Int; role : UserRole__549269184; userId : Principal};
-actor {
+actor ({
+  stable managerMappings :
+    {var root : Node__46230540<Principal, Text>; var size : Nat__490723111};
+  in restaurants : Map__605269027<Text, OldRestaurant__138797074>;
+  stable users :
+    {
+      var root : Node__46230540<Principal, User__455962502>;
+      var size : Nat__490723111
+    }
+}, {
   stable managerMappings :
     {var root : Node__46230540<Principal, Text>; var size : Nat__490723111};
   stable restaurants :
@@ -32,9 +59,12 @@ actor {
       var root : Node__46230540<Text, Restaurant__761304188>;
       var size : Nat__490723111
     };
+  stable slugs :
+    {var root : Node__46230540<Text, Text>; var size : Nat__490723111};
+  stable superAdminRef : {var value : ?Principal};
   stable users :
     {
       var root : Node__46230540<Principal, User__455962502>;
       var size : Nat__490723111
     }
-};
+}) ;

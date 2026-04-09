@@ -20,25 +20,50 @@ export interface Restaurant {
   'city' : string,
   'name' : string,
   'createdAt' : bigint,
+  'slug' : string,
   'description' : string,
   'isActive' : boolean,
   'restaurantId' : string,
   'logoUrl' : string,
   'pdfMenuUrl' : string,
 }
+export interface RestaurantInput {
+  'backgroundColor' : [] | [string],
+  'backgroundImageUrl' : [] | [string],
+  'city' : string,
+  'name' : string,
+  'slug' : string,
+  'description' : string,
+  'isActive' : boolean,
+  'logoUrl' : [] | [string],
+  'pdfMenuUrl' : [] | [string],
+}
 export interface RestaurantPublic {
   'name' : string,
+  'slug' : string,
   'description' : string,
   'isActive' : boolean,
   'restaurantId' : string,
   'logoUrl' : string,
 }
-export type Result = { 'ok' : User } |
+export type Result = { 'ok' : Restaurant } |
   { 'err' : Error };
-export type Result_1 = { 'ok' : null } |
+export type Result_1 = { 'ok' : User } |
   { 'err' : Error };
-export type Result_2 = { 'ok' : Restaurant } |
+export type Result_2 = { 'ok' : null } |
   { 'err' : Error };
+export interface UpdateRestaurantInput {
+  'backgroundColor' : [] | [string],
+  'backgroundImageUrl' : [] | [string],
+  'city' : [] | [string],
+  'name' : [] | [string],
+  'slug' : [] | [string],
+  'description' : [] | [string],
+  'isActive' : [] | [boolean],
+  'restaurantId' : string,
+  'logoUrl' : [] | [string],
+  'pdfMenuUrl' : [] | [string],
+}
 export interface User {
   'userId' : Principal,
   'createdAt' : bigint,
@@ -49,12 +74,14 @@ export type UserRole = { 'WAITER' : null } |
   { 'SUPER_ADMIN' : null } |
   { 'KITCHEN' : null };
 export interface _SERVICE {
-  'addRestaurant' : ActorMethod<[Restaurant], Result_2>,
+  'createRestaurant' : ActorMethod<[RestaurantInput], Result>,
   'getCurrentUserRole' : ActorMethod<[], [] | [UserRole]>,
-  'getLinkedRestaurant' : ActorMethod<[], [] | [Restaurant]>,
+  'getMyRestaurant' : ActorMethod<[], [] | [Restaurant]>,
+  'getRestaurantBySlug' : ActorMethod<[string], [] | [RestaurantPublic]>,
   'getRestaurantPublic' : ActorMethod<[string], [] | [RestaurantPublic]>,
-  'linkManagerToRestaurant' : ActorMethod<[Principal, string], Result_1>,
-  'registerUser' : ActorMethod<[UserRole], Result>,
+  'linkManagerToRestaurant' : ActorMethod<[string, string], Result_2>,
+  'registerUser' : ActorMethod<[], Result_1>,
+  'updateRestaurant' : ActorMethod<[string, UpdateRestaurantInput], Result>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

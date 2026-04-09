@@ -6,17 +6,22 @@ import AuthLib "../lib/auth";
 import AuthTypes "../types/auth";
 import CommonTypes "../types/common";
 
-mixin (users : AuthLib.UserMap) {
+mixin (users : AuthLib.UserMap, superAdmin : { var value : ?Principal }) {
 
-  // Register the calling principal with a role (for initial setup)
-  public shared ({ caller }) func registerUser(
-    role : AuthTypes.UserRole
-  ) : async CommonTypes.Result<AuthTypes.User, CommonTypes.Error> {
-    Runtime.trap("not implemented");
+  // Register the calling principal — SUPER_ADMIN if first user, MANAGER otherwise
+  public shared ({ caller }) func registerUser() : async CommonTypes.Result<AuthTypes.User, CommonTypes.Error> {
+    let role : AuthTypes.UserRole = if (users.isEmpty()) {
+      // First user becomes SUPER_ADMIN; store their principal for future admin checks
+      superAdmin.value := ?caller;
+      #SUPER_ADMIN;
+    } else {
+      #MANAGER;
+    };
+    AuthLib.registerUser(users, caller, role, Time.now());
   };
 
   // Query the role of the calling principal; null if not registered
   public query ({ caller }) func getCurrentUserRole() : async ?AuthTypes.UserRole {
-    Runtime.trap("not implemented");
+    AuthLib.getUserRole(users, caller);
   };
 };

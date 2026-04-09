@@ -13,16 +13,26 @@ module {
     role : AuthTypes.UserRole,
     now : Int,
   ) : CommonTypes.Result<AuthTypes.User, CommonTypes.Error> {
-    Runtime.trap("not implemented");
+    switch (users.get(userId)) {
+      case (?_existing) { #err(#alreadyExists) };
+      case null {
+        let user : AuthTypes.User = { userId; role; createdAt = now };
+        users.add(userId, user);
+        #ok(user);
+      };
+    };
   };
 
   // Look up a user by principal; returns null if not found
   public func getUser(users : UserMap, userId : Principal) : ?AuthTypes.User {
-    Runtime.trap("not implemented");
+    users.get(userId);
   };
 
   // Get the role of a caller; returns null if not registered
   public func getUserRole(users : UserMap, userId : Principal) : ?AuthTypes.UserRole {
-    Runtime.trap("not implemented");
+    switch (users.get(userId)) {
+      case (?user) { ?user.role };
+      case null { null };
+    };
   };
 };

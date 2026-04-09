@@ -8,12 +8,24 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
+export const RestaurantInput = IDL.Record({
+  'backgroundColor' : IDL.Opt(IDL.Text),
+  'backgroundImageUrl' : IDL.Opt(IDL.Text),
+  'city' : IDL.Text,
+  'name' : IDL.Text,
+  'slug' : IDL.Text,
+  'description' : IDL.Text,
+  'isActive' : IDL.Bool,
+  'logoUrl' : IDL.Opt(IDL.Text),
+  'pdfMenuUrl' : IDL.Opt(IDL.Text),
+});
 export const Restaurant = IDL.Record({
   'backgroundColor' : IDL.Text,
   'backgroundImageUrl' : IDL.Text,
   'city' : IDL.Text,
   'name' : IDL.Text,
   'createdAt' : IDL.Int,
+  'slug' : IDL.Text,
   'description' : IDL.Text,
   'isActive' : IDL.Bool,
   'restaurantId' : IDL.Text,
@@ -26,7 +38,7 @@ export const Error = IDL.Variant({
   'notFound' : IDL.Null,
   'unauthorized' : IDL.Null,
 });
-export const Result_2 = IDL.Variant({ 'ok' : Restaurant, 'err' : Error });
+export const Result = IDL.Variant({ 'ok' : Restaurant, 'err' : Error });
 export const UserRole = IDL.Variant({
   'WAITER' : IDL.Null,
   'MANAGER' : IDL.Null,
@@ -35,45 +47,76 @@ export const UserRole = IDL.Variant({
 });
 export const RestaurantPublic = IDL.Record({
   'name' : IDL.Text,
+  'slug' : IDL.Text,
   'description' : IDL.Text,
   'isActive' : IDL.Bool,
   'restaurantId' : IDL.Text,
   'logoUrl' : IDL.Text,
 });
-export const Result_1 = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
+export const Result_2 = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
 export const User = IDL.Record({
   'userId' : IDL.Principal,
   'createdAt' : IDL.Int,
   'role' : UserRole,
 });
-export const Result = IDL.Variant({ 'ok' : User, 'err' : Error });
+export const Result_1 = IDL.Variant({ 'ok' : User, 'err' : Error });
+export const UpdateRestaurantInput = IDL.Record({
+  'backgroundColor' : IDL.Opt(IDL.Text),
+  'backgroundImageUrl' : IDL.Opt(IDL.Text),
+  'city' : IDL.Opt(IDL.Text),
+  'name' : IDL.Opt(IDL.Text),
+  'slug' : IDL.Opt(IDL.Text),
+  'description' : IDL.Opt(IDL.Text),
+  'isActive' : IDL.Opt(IDL.Bool),
+  'restaurantId' : IDL.Text,
+  'logoUrl' : IDL.Opt(IDL.Text),
+  'pdfMenuUrl' : IDL.Opt(IDL.Text),
+});
 
 export const idlService = IDL.Service({
-  'addRestaurant' : IDL.Func([Restaurant], [Result_2], []),
+  'createRestaurant' : IDL.Func([RestaurantInput], [Result], []),
   'getCurrentUserRole' : IDL.Func([], [IDL.Opt(UserRole)], ['query']),
-  'getLinkedRestaurant' : IDL.Func([], [IDL.Opt(Restaurant)], ['query']),
+  'getMyRestaurant' : IDL.Func([], [IDL.Opt(Restaurant)], ['query']),
+  'getRestaurantBySlug' : IDL.Func(
+      [IDL.Text],
+      [IDL.Opt(RestaurantPublic)],
+      ['query'],
+    ),
   'getRestaurantPublic' : IDL.Func(
       [IDL.Text],
       [IDL.Opt(RestaurantPublic)],
       ['query'],
     ),
-  'linkManagerToRestaurant' : IDL.Func(
-      [IDL.Principal, IDL.Text],
-      [Result_1],
+  'linkManagerToRestaurant' : IDL.Func([IDL.Text, IDL.Text], [Result_2], []),
+  'registerUser' : IDL.Func([], [Result_1], []),
+  'updateRestaurant' : IDL.Func(
+      [IDL.Text, UpdateRestaurantInput],
+      [Result],
       [],
     ),
-  'registerUser' : IDL.Func([UserRole], [Result], []),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
+  const RestaurantInput = IDL.Record({
+    'backgroundColor' : IDL.Opt(IDL.Text),
+    'backgroundImageUrl' : IDL.Opt(IDL.Text),
+    'city' : IDL.Text,
+    'name' : IDL.Text,
+    'slug' : IDL.Text,
+    'description' : IDL.Text,
+    'isActive' : IDL.Bool,
+    'logoUrl' : IDL.Opt(IDL.Text),
+    'pdfMenuUrl' : IDL.Opt(IDL.Text),
+  });
   const Restaurant = IDL.Record({
     'backgroundColor' : IDL.Text,
     'backgroundImageUrl' : IDL.Text,
     'city' : IDL.Text,
     'name' : IDL.Text,
     'createdAt' : IDL.Int,
+    'slug' : IDL.Text,
     'description' : IDL.Text,
     'isActive' : IDL.Bool,
     'restaurantId' : IDL.Text,
@@ -86,7 +129,7 @@ export const idlFactory = ({ IDL }) => {
     'notFound' : IDL.Null,
     'unauthorized' : IDL.Null,
   });
-  const Result_2 = IDL.Variant({ 'ok' : Restaurant, 'err' : Error });
+  const Result = IDL.Variant({ 'ok' : Restaurant, 'err' : Error });
   const UserRole = IDL.Variant({
     'WAITER' : IDL.Null,
     'MANAGER' : IDL.Null,
@@ -95,34 +138,53 @@ export const idlFactory = ({ IDL }) => {
   });
   const RestaurantPublic = IDL.Record({
     'name' : IDL.Text,
+    'slug' : IDL.Text,
     'description' : IDL.Text,
     'isActive' : IDL.Bool,
     'restaurantId' : IDL.Text,
     'logoUrl' : IDL.Text,
   });
-  const Result_1 = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
+  const Result_2 = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
   const User = IDL.Record({
     'userId' : IDL.Principal,
     'createdAt' : IDL.Int,
     'role' : UserRole,
   });
-  const Result = IDL.Variant({ 'ok' : User, 'err' : Error });
+  const Result_1 = IDL.Variant({ 'ok' : User, 'err' : Error });
+  const UpdateRestaurantInput = IDL.Record({
+    'backgroundColor' : IDL.Opt(IDL.Text),
+    'backgroundImageUrl' : IDL.Opt(IDL.Text),
+    'city' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'slug' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+    'isActive' : IDL.Opt(IDL.Bool),
+    'restaurantId' : IDL.Text,
+    'logoUrl' : IDL.Opt(IDL.Text),
+    'pdfMenuUrl' : IDL.Opt(IDL.Text),
+  });
   
   return IDL.Service({
-    'addRestaurant' : IDL.Func([Restaurant], [Result_2], []),
+    'createRestaurant' : IDL.Func([RestaurantInput], [Result], []),
     'getCurrentUserRole' : IDL.Func([], [IDL.Opt(UserRole)], ['query']),
-    'getLinkedRestaurant' : IDL.Func([], [IDL.Opt(Restaurant)], ['query']),
+    'getMyRestaurant' : IDL.Func([], [IDL.Opt(Restaurant)], ['query']),
+    'getRestaurantBySlug' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(RestaurantPublic)],
+        ['query'],
+      ),
     'getRestaurantPublic' : IDL.Func(
         [IDL.Text],
         [IDL.Opt(RestaurantPublic)],
         ['query'],
       ),
-    'linkManagerToRestaurant' : IDL.Func(
-        [IDL.Principal, IDL.Text],
-        [Result_1],
+    'linkManagerToRestaurant' : IDL.Func([IDL.Text, IDL.Text], [Result_2], []),
+    'registerUser' : IDL.Func([], [Result_1], []),
+    'updateRestaurant' : IDL.Func(
+        [IDL.Text, UpdateRestaurantInput],
+        [Result],
         [],
       ),
-    'registerUser' : IDL.Func([UserRole], [Result], []),
   });
 };
 

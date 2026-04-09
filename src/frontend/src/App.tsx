@@ -9,6 +9,8 @@ import LoginPage from "@/pages/LoginPage";
 import ManagerPage from "@/pages/ManagerPage";
 import MenuPage from "@/pages/MenuPage";
 import WaiterPage from "@/pages/WaiterPage";
+import MenuQrPage from "@/pages/manager/MenuQrPage";
+import RestaurantPage from "@/pages/manager/RestaurantPage";
 import {
   Navigate,
   Outlet,
@@ -85,6 +87,26 @@ const managerRoute = createRoute({
   ),
 });
 
+const managerRestaurantRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/manager/restaurant",
+  component: () => (
+    <ProtectedRoute>
+      <RestaurantPage />
+    </ProtectedRoute>
+  ),
+});
+
+const managerMenuQrRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/manager/menu-qr",
+  component: () => (
+    <ProtectedRoute>
+      <MenuQrPage />
+    </ProtectedRoute>
+  ),
+});
+
 const waiterRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/waiter",
@@ -138,6 +160,8 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   managerRoute,
+  managerRestaurantRoute,
+  managerMenuQrRoute,
   waiterRoute,
   kitchenRoute,
   adminRoute,

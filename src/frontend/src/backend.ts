@@ -91,20 +91,21 @@ export class ExternalBlob {
 }
 export type Result_2 = {
     __kind__: "ok";
-    ok: Restaurant;
+    ok: null;
 } | {
     __kind__: "err";
     err: Error_;
 };
 export type Result = {
     __kind__: "ok";
-    ok: User;
+    ok: Restaurant;
 } | {
     __kind__: "err";
     err: Error_;
 };
 export interface RestaurantPublic {
     name: string;
+    slug: string;
     description: string;
     isActive: boolean;
     restaurantId: string;
@@ -128,12 +129,24 @@ export type Error_ = {
     __kind__: "unauthorized";
     unauthorized: null;
 };
+export interface RestaurantInput {
+    backgroundColor?: string;
+    backgroundImageUrl?: string;
+    city: string;
+    name: string;
+    slug: string;
+    description: string;
+    isActive: boolean;
+    logoUrl?: string;
+    pdfMenuUrl?: string;
+}
 export interface Restaurant {
     backgroundColor: string;
     backgroundImageUrl: string;
     city: string;
     name: string;
     createdAt: bigint;
+    slug: string;
     description: string;
     isActive: boolean;
     restaurantId: string;
@@ -142,11 +155,23 @@ export interface Restaurant {
 }
 export type Result_1 = {
     __kind__: "ok";
-    ok: null;
+    ok: User;
 } | {
     __kind__: "err";
     err: Error_;
 };
+export interface UpdateRestaurantInput {
+    backgroundColor?: string;
+    backgroundImageUrl?: string;
+    city?: string;
+    name?: string;
+    slug?: string;
+    description?: string;
+    isActive?: boolean;
+    restaurantId: string;
+    logoUrl?: string;
+    pdfMenuUrl?: string;
+}
 export enum UserRole {
     WAITER = "WAITER",
     MANAGER = "MANAGER",
@@ -154,127 +179,157 @@ export enum UserRole {
     KITCHEN = "KITCHEN"
 }
 export interface backendInterface {
-    addRestaurant(restaurant: Restaurant): Promise<Result_2>;
+    createRestaurant(input: RestaurantInput): Promise<Result>;
     getCurrentUserRole(): Promise<UserRole | null>;
-    getLinkedRestaurant(): Promise<Restaurant | null>;
+    getMyRestaurant(): Promise<Restaurant | null>;
+    getRestaurantBySlug(slug: string): Promise<RestaurantPublic | null>;
     getRestaurantPublic(restaurantId: string): Promise<RestaurantPublic | null>;
-    linkManagerToRestaurant(managerId: Principal, restaurantId: string): Promise<Result_1>;
-    registerUser(role: UserRole): Promise<Result>;
+    linkManagerToRestaurant(managerId: string, restaurantId: string): Promise<Result_2>;
+    registerUser(): Promise<Result_1>;
+    updateRestaurant(restaurantId: string, input: UpdateRestaurantInput): Promise<Result>;
 }
-import type { Error as _Error, Restaurant as _Restaurant, RestaurantPublic as _RestaurantPublic, Result as _Result, Result_1 as _Result_1, Result_2 as _Result_2, User as _User, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
+import type { Error as _Error, Restaurant as _Restaurant, RestaurantInput as _RestaurantInput, RestaurantPublic as _RestaurantPublic, Result as _Result, Result_1 as _Result_1, Result_2 as _Result_2, UpdateRestaurantInput as _UpdateRestaurantInput, User as _User, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
-    async addRestaurant(arg0: Restaurant): Promise<Result_2> {
+    async createRestaurant(arg0: RestaurantInput): Promise<Result> {
         if (this.processError) {
             try {
-                const result = await this.actor.addRestaurant(arg0);
-                return from_candid_Result_2_n1(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.createRestaurant(to_candid_RestaurantInput_n1(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_Result_n3(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.addRestaurant(arg0);
-            return from_candid_Result_2_n1(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.createRestaurant(to_candid_RestaurantInput_n1(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_Result_n3(this._uploadFile, this._downloadFile, result);
         }
     }
     async getCurrentUserRole(): Promise<UserRole | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getCurrentUserRole();
-                return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getCurrentUserRole();
-            return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getLinkedRestaurant(): Promise<Restaurant | null> {
+    async getMyRestaurant(): Promise<Restaurant | null> {
         if (this.processError) {
             try {
-                const result = await this.actor.getLinkedRestaurant();
-                return from_candid_opt_n8(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getMyRestaurant();
+                return from_candid_opt_n10(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getLinkedRestaurant();
-            return from_candid_opt_n8(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getMyRestaurant();
+            return from_candid_opt_n10(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getRestaurantBySlug(arg0: string): Promise<RestaurantPublic | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getRestaurantBySlug(arg0);
+                return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getRestaurantBySlug(arg0);
+            return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
         }
     }
     async getRestaurantPublic(arg0: string): Promise<RestaurantPublic | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getRestaurantPublic(arg0);
-                return from_candid_opt_n9(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getRestaurantPublic(arg0);
-            return from_candid_opt_n9(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
         }
     }
-    async linkManagerToRestaurant(arg0: Principal, arg1: string): Promise<Result_1> {
+    async linkManagerToRestaurant(arg0: string, arg1: string): Promise<Result_2> {
         if (this.processError) {
             try {
                 const result = await this.actor.linkManagerToRestaurant(arg0, arg1);
-                return from_candid_Result_1_n10(this._uploadFile, this._downloadFile, result);
+                return from_candid_Result_2_n12(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.linkManagerToRestaurant(arg0, arg1);
-            return from_candid_Result_1_n10(this._uploadFile, this._downloadFile, result);
+            return from_candid_Result_2_n12(this._uploadFile, this._downloadFile, result);
         }
     }
-    async registerUser(arg0: UserRole): Promise<Result> {
+    async registerUser(): Promise<Result_1> {
         if (this.processError) {
             try {
-                const result = await this.actor.registerUser(to_candid_UserRole_n12(this._uploadFile, this._downloadFile, arg0));
-                return from_candid_Result_n14(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.registerUser();
+                return from_candid_Result_1_n14(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.registerUser(to_candid_UserRole_n12(this._uploadFile, this._downloadFile, arg0));
-            return from_candid_Result_n14(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.registerUser();
+            return from_candid_Result_1_n14(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async updateRestaurant(arg0: string, arg1: UpdateRestaurantInput): Promise<Result> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateRestaurant(arg0, to_candid_UpdateRestaurantInput_n18(this._uploadFile, this._downloadFile, arg1));
+                return from_candid_Result_n3(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateRestaurant(arg0, to_candid_UpdateRestaurantInput_n18(this._uploadFile, this._downloadFile, arg1));
+            return from_candid_Result_n3(this._uploadFile, this._downloadFile, result);
         }
     }
 }
-function from_candid_Error_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Error): Error_ {
-    return from_candid_variant_n4(_uploadFile, _downloadFile, value);
+function from_candid_Error_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Error): Error_ {
+    return from_candid_variant_n6(_uploadFile, _downloadFile, value);
 }
-function from_candid_Result_1_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result_1): Result_1 {
-    return from_candid_variant_n11(_uploadFile, _downloadFile, value);
-}
-function from_candid_Result_2_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result_2): Result_2 {
-    return from_candid_variant_n2(_uploadFile, _downloadFile, value);
-}
-function from_candid_Result_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result): Result {
+function from_candid_Result_1_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result_1): Result_1 {
     return from_candid_variant_n15(_uploadFile, _downloadFile, value);
 }
-function from_candid_UserRole_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
-    return from_candid_variant_n7(_uploadFile, _downloadFile, value);
+function from_candid_Result_2_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result_2): Result_2 {
+    return from_candid_variant_n13(_uploadFile, _downloadFile, value);
+}
+function from_candid_Result_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result): Result {
+    return from_candid_variant_n4(_uploadFile, _downloadFile, value);
+}
+function from_candid_UserRole_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
+    return from_candid_variant_n9(_uploadFile, _downloadFile, value);
 }
 function from_candid_User_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _User): User {
     return from_candid_record_n17(_uploadFile, _downloadFile, value);
 }
-function from_candid_opt_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_UserRole]): UserRole | null {
-    return value.length === 0 ? null : from_candid_UserRole_n6(_uploadFile, _downloadFile, value[0]);
-}
-function from_candid_opt_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Restaurant]): Restaurant | null {
+function from_candid_opt_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Restaurant]): Restaurant | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_RestaurantPublic]): RestaurantPublic | null {
+function from_candid_opt_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_RestaurantPublic]): RestaurantPublic | null {
     return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_UserRole]): UserRole | null {
+    return value.length === 0 ? null : from_candid_UserRole_n8(_uploadFile, _downloadFile, value[0]);
 }
 function from_candid_record_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     userId: Principal;
@@ -288,10 +343,10 @@ function from_candid_record_n17(_uploadFile: (file: ExternalBlob) => Promise<Uin
     return {
         userId: value.userId,
         createdAt: value.createdAt,
-        role: from_candid_UserRole_n6(_uploadFile, _downloadFile, value.role)
+        role: from_candid_UserRole_n8(_uploadFile, _downloadFile, value.role)
     };
 }
-function from_candid_variant_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     ok: null;
 } | {
     err: _Error;
@@ -307,7 +362,7 @@ function from_candid_variant_n11(_uploadFile: (file: ExternalBlob) => Promise<Ui
         ok: value.ok
     } : "err" in value ? {
         __kind__: "err",
-        err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
+        err: from_candid_Error_n5(_uploadFile, _downloadFile, value.err)
     } : value;
 }
 function from_candid_variant_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -326,10 +381,10 @@ function from_candid_variant_n15(_uploadFile: (file: ExternalBlob) => Promise<Ui
         ok: from_candid_User_n16(_uploadFile, _downloadFile, value.ok)
     } : "err" in value ? {
         __kind__: "err",
-        err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
+        err: from_candid_Error_n5(_uploadFile, _downloadFile, value.err)
     } : value;
 }
-function from_candid_variant_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     ok: _Restaurant;
 } | {
     err: _Error;
@@ -345,10 +400,10 @@ function from_candid_variant_n2(_uploadFile: (file: ExternalBlob) => Promise<Uin
         ok: value.ok
     } : "err" in value ? {
         __kind__: "err",
-        err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
+        err: from_candid_Error_n5(_uploadFile, _downloadFile, value.err)
     } : value;
 }
-function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     alreadyExists: null;
 } | {
     invalidInput: string;
@@ -383,7 +438,7 @@ function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uin
         unauthorized: value.unauthorized
     } : value;
 }
-function from_candid_variant_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     WAITER: null;
 } | {
     MANAGER: null;
@@ -394,27 +449,80 @@ function from_candid_variant_n7(_uploadFile: (file: ExternalBlob) => Promise<Uin
 }): UserRole {
     return "WAITER" in value ? UserRole.WAITER : "MANAGER" in value ? UserRole.MANAGER : "SUPER_ADMIN" in value ? UserRole.SUPER_ADMIN : "KITCHEN" in value ? UserRole.KITCHEN : value;
 }
-function to_candid_UserRole_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): _UserRole {
-    return to_candid_variant_n13(_uploadFile, _downloadFile, value);
+function to_candid_RestaurantInput_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: RestaurantInput): _RestaurantInput {
+    return to_candid_record_n2(_uploadFile, _downloadFile, value);
 }
-function to_candid_variant_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {
-    WAITER: null;
-} | {
-    MANAGER: null;
-} | {
-    SUPER_ADMIN: null;
-} | {
-    KITCHEN: null;
+function to_candid_UpdateRestaurantInput_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UpdateRestaurantInput): _UpdateRestaurantInput {
+    return to_candid_record_n19(_uploadFile, _downloadFile, value);
+}
+function to_candid_record_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    backgroundColor?: string;
+    backgroundImageUrl?: string;
+    city?: string;
+    name?: string;
+    slug?: string;
+    description?: string;
+    isActive?: boolean;
+    restaurantId: string;
+    logoUrl?: string;
+    pdfMenuUrl?: string;
+}): {
+    backgroundColor: [] | [string];
+    backgroundImageUrl: [] | [string];
+    city: [] | [string];
+    name: [] | [string];
+    slug: [] | [string];
+    description: [] | [string];
+    isActive: [] | [boolean];
+    restaurantId: string;
+    logoUrl: [] | [string];
+    pdfMenuUrl: [] | [string];
 } {
-    return value == UserRole.WAITER ? {
-        WAITER: null
-    } : value == UserRole.MANAGER ? {
-        MANAGER: null
-    } : value == UserRole.SUPER_ADMIN ? {
-        SUPER_ADMIN: null
-    } : value == UserRole.KITCHEN ? {
-        KITCHEN: null
-    } : value;
+    return {
+        backgroundColor: value.backgroundColor ? candid_some(value.backgroundColor) : candid_none(),
+        backgroundImageUrl: value.backgroundImageUrl ? candid_some(value.backgroundImageUrl) : candid_none(),
+        city: value.city ? candid_some(value.city) : candid_none(),
+        name: value.name ? candid_some(value.name) : candid_none(),
+        slug: value.slug ? candid_some(value.slug) : candid_none(),
+        description: value.description ? candid_some(value.description) : candid_none(),
+        isActive: value.isActive ? candid_some(value.isActive) : candid_none(),
+        restaurantId: value.restaurantId,
+        logoUrl: value.logoUrl ? candid_some(value.logoUrl) : candid_none(),
+        pdfMenuUrl: value.pdfMenuUrl ? candid_some(value.pdfMenuUrl) : candid_none()
+    };
+}
+function to_candid_record_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    backgroundColor?: string;
+    backgroundImageUrl?: string;
+    city: string;
+    name: string;
+    slug: string;
+    description: string;
+    isActive: boolean;
+    logoUrl?: string;
+    pdfMenuUrl?: string;
+}): {
+    backgroundColor: [] | [string];
+    backgroundImageUrl: [] | [string];
+    city: string;
+    name: string;
+    slug: string;
+    description: string;
+    isActive: boolean;
+    logoUrl: [] | [string];
+    pdfMenuUrl: [] | [string];
+} {
+    return {
+        backgroundColor: value.backgroundColor ? candid_some(value.backgroundColor) : candid_none(),
+        backgroundImageUrl: value.backgroundImageUrl ? candid_some(value.backgroundImageUrl) : candid_none(),
+        city: value.city,
+        name: value.name,
+        slug: value.slug,
+        description: value.description,
+        isActive: value.isActive,
+        logoUrl: value.logoUrl ? candid_some(value.logoUrl) : candid_none(),
+        pdfMenuUrl: value.pdfMenuUrl ? candid_some(value.pdfMenuUrl) : candid_none()
+    };
 }
 export interface CreateActorOptions {
     agent?: Agent;

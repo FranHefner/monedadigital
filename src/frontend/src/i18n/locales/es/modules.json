@@ -2,20 +2,20 @@
   "comingSoon": "Próximamente",
   "comingSoonDesc": "Este módulo está en desarrollo. Estará disponible muy pronto.",
   "manager": {
-    "title": "Panel del Gerente",
-    "description": "Gestiona tu restaurante, menú y configuraciones desde aquí."
+    "title": "Panel del Encargado",
+    "description": "Gestioná tu restaurante, menú y configuraciones desde acá."
   },
   "customer": {
     "title": "Menú del Cliente",
-    "description": "Explora el menú digital de nuestros restaurantes."
+    "description": "Explorá el menú digital de nuestros restaurantes."
   },
   "waiter": {
-    "title": "Vista del Mesero",
-    "description": "Gestiona las mesas y pedidos de tus clientes."
+    "title": "Vista del Mozo",
+    "description": "Gestioná las mesas y pedidos de tus clientes."
   },
   "kitchen": {
     "title": "Vista de Cocina",
-    "description": "Visualiza y gestiona los pedidos entrantes en tiempo real."
+    "description": "Visualizá y gestioná los pedidos entrantes en tiempo real."
   },
   "admin": {
     "title": "Panel Super Administrador",
@@ -23,11 +23,78 @@
   },
   "menu": {
     "title": "Menú del Restaurante",
-    "description": "Escanea el código QR en tu mesa para ver el menú.",
+    "description": "Escaneá el código QR en tu mesa para ver el menú.",
     "loading": "Cargando restaurante...",
     "notFound": "Restaurante no encontrado",
-    "notFoundDesc": "El restaurante que buscas no existe o no está disponible.",
+    "notFoundDesc": "El restaurante que buscás no existe o no está disponible.",
     "inactive": "Restaurante no disponible",
     "inactiveDesc": "Este restaurante no está activo actualmente."
+  },
+  "portal": {
+    "title": "Panel del Encargado"
+  },
+  "myRestaurant": {
+    "title": "Mi Restaurante",
+    "description": "Configurá el perfil de tu restaurante"
+  },
+  "menuQr": {
+    "title": "Menú / QR",
+    "description": "Gestioná tu menú digital y código QR",
+    "pdfSection": "Menú PDF",
+    "uploadPdf": "Subir menú PDF",
+    "pdfUploaded": "PDF subido correctamente",
+    "replacePdf": "Reemplazar PDF",
+    "viewPdf": "Ver PDF actual",
+    "qrSection": "Código QR",
+    "noSlug": "Configurá el perfil de tu restaurante primero para generar el código QR.",
+    "setupProfile": "Configurar perfil",
+    "qrUrl": "URL de tu menú",
+    "downloadQr": "Descargar QR como PNG",
+    "back": "Volver al Panel",
+    "savePdf": "Guardar",
+    "uploadingPdf": "Subiendo...",
+    "savingPdf": "Guardando...",
+    "pdfSaved": "Menú PDF guardado correctamente",
+    "pdfError": "Error al subir el PDF. Por favor intentá de nuevo.",
+    "uploadProgress": "Progreso de subida",
+    "dragOrClick": "Arrastrá un PDF acá o hacé clic para seleccionar",
+    "pdfOnly": "Solo archivos PDF",
+    "currentPdf": "Menú PDF actual",
+    "noPdf": "Aún no se subió ningún menú PDF"
+  },
+  "staff": {
+    "title": "Personal",
+    "description": "Gestioná tus mozos y personal de cocina"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Mirá las estadísticas y la actividad de tu restaurante"
+  },
+  "restaurant": {
+    "title": "Mi Restaurante",
+    "back": "Volver",
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "saved": "¡Guardado!",
+    "slugPreview": "URL pública",
+    "fields": {
+      "name": "Nombre del restaurante",
+      "description": "Descripción",
+      "city": "Ciudad",
+      "slug": "URL personalizada (slug)",
+      "logo": "Logo",
+      "backgroundColor": "Color de fondo",
+      "backgroundImage": "Imagen de fondo",
+      "isActive": "Restaurante activo",
+      "replace": "Reemplazar",
+      "remove": "Quitar",
+      "uploadImage": "Subir imagen",
+      "activeDescription": "Tu restaurante está visible para los clientes",
+      "inactiveDescription": "Tu restaurante está oculto para los clientes"
+    },
+    "errors": {
+      "slugTaken": "Esta URL ya está en uso. Elegí otra.",
+      "slugInvalid": "Solo letras minúsculas, números y guiones."
+    }
   }
 }

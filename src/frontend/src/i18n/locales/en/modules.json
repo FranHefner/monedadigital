@@ -29,5 +29,72 @@
     "notFoundDesc": "The restaurant you are looking for does not exist or is not available.",
     "inactive": "Restaurant unavailable",
     "inactiveDesc": "This restaurant is not currently active."
+  },
+  "portal": {
+    "title": "Manager Portal"
+  },
+  "myRestaurant": {
+    "title": "My Restaurant",
+    "description": "Configure your restaurant profile"
+  },
+  "menuQr": {
+    "title": "Menu / QR",
+    "description": "Manage your digital menu and QR code",
+    "pdfSection": "PDF Menu",
+    "uploadPdf": "Upload PDF menu",
+    "pdfUploaded": "PDF uploaded successfully",
+    "replacePdf": "Replace PDF",
+    "viewPdf": "View current PDF",
+    "qrSection": "QR Code",
+    "noSlug": "Please set up your restaurant profile first to generate the QR code.",
+    "setupProfile": "Set up profile",
+    "qrUrl": "Your menu URL",
+    "downloadQr": "Download QR as PNG",
+    "back": "Back to Portal",
+    "savePdf": "Save",
+    "uploadingPdf": "Uploading...",
+    "savingPdf": "Saving...",
+    "pdfSaved": "PDF menu saved successfully",
+    "pdfError": "Error uploading PDF. Please try again.",
+    "uploadProgress": "Upload progress",
+    "dragOrClick": "Drag & drop a PDF here, or click to select",
+    "pdfOnly": "PDF files only",
+    "currentPdf": "Current PDF menu",
+    "noPdf": "No PDF menu uploaded yet"
+  },
+  "staff": {
+    "title": "Staff",
+    "description": "Manage your waiters and kitchen staff"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "View scan statistics and activity"
+  },
+  "restaurant": {
+    "title": "My Restaurant",
+    "back": "Back",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved!",
+    "slugPreview": "Public URL",
+    "fields": {
+      "name": "Restaurant name",
+      "description": "Description",
+      "city": "City",
+      "slug": "Custom URL (slug)",
+      "logo": "Logo",
+      "backgroundColor": "Background color",
+      "backgroundImage": "Background image",
+      "isActive": "Restaurant active",
+      "replace": "Replace",
+      "remove": "Remove",
+      "uploadImage": "Upload image",
+      "activeDescription": "Your restaurant is visible to customers",
+      "inactiveDescription": "Your restaurant is hidden from customers"
+    },
+    "errors": {
+      "slugTaken": "This URL is already taken. Choose another.",
+      "slugInvalid": "Only lowercase letters, numbers, and hyphens."
+    }
   }
 }

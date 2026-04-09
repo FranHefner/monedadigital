@@ -11,20 +11,33 @@ type User =
    role: UserRole;
    userId: principal;
  };
-type Result_2 = 
- variant {
-   err: Error;
-   ok: Restaurant;
+type UpdateRestaurantInput = 
+ record {
+   backgroundColor: opt text;
+   backgroundImageUrl: opt text;
+   city: opt text;
+   description: opt text;
+   isActive: opt bool;
+   logoUrl: opt text;
+   name: opt text;
+   pdfMenuUrl: opt text;
+   restaurantId: text;
+   slug: opt text;
  };
-type Result_1 = 
+type Result_2 = 
  variant {
    err: Error;
    ok;
  };
-type Result = 
+type Result_1 = 
  variant {
    err: Error;
    ok: User;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok: Restaurant;
  };
 type RestaurantPublic = 
  record {
@@ -33,6 +46,19 @@ type RestaurantPublic =
    logoUrl: text;
    name: text;
    restaurantId: text;
+   slug: text;
+ };
+type RestaurantInput = 
+ record {
+   backgroundColor: opt text;
+   backgroundImageUrl: opt text;
+   city: text;
+   description: text;
+   isActive: bool;
+   logoUrl: opt text;
+   name: text;
+   pdfMenuUrl: opt text;
+   slug: text;
  };
 type Restaurant = 
  record {
@@ -46,6 +72,7 @@ type Restaurant =
    name: text;
    pdfMenuUrl: text;
    restaurantId: text;
+   slug: text;
  };
 type Error = 
  variant {
@@ -55,11 +82,14 @@ type Error =
    unauthorized;
  };
 service : {
-  addRestaurant: (restaurant: Restaurant) -> (Result_2);
+  createRestaurant: (input: RestaurantInput) -> (Result);
   getCurrentUserRole: () -> (opt UserRole) query;
-  getLinkedRestaurant: () -> (opt Restaurant) query;
+  getMyRestaurant: () -> (opt Restaurant) query;
+  getRestaurantBySlug: (slug: text) -> (opt RestaurantPublic) query;
   getRestaurantPublic: (restaurantId: text) -> (opt RestaurantPublic) query;
-  linkManagerToRestaurant: (managerId: principal, restaurantId: text) ->
-   (Result_1);
-  registerUser: (role: UserRole) -> (Result);
+  linkManagerToRestaurant: (managerId: text, restaurantId: text) ->
+   (Result_2);
+  registerUser: () -> (Result_1);
+  updateRestaurant: (restaurantId: text, input: UpdateRestaurantInput) ->
+   (Result);
 }

@@ -11,7 +11,8 @@ module {
     managerId : Principal,
     restaurantId : Text,
   ) : CommonTypes.Result<(), CommonTypes.Error> {
-    Runtime.trap("not implemented");
+    mappings.add(managerId, restaurantId);
+    #ok(());
   };
 
   // Retrieve the restaurant ID linked to a manager principal
@@ -19,6 +20,6 @@ module {
     mappings : ManagerRestaurantMap,
     managerId : Principal,
   ) : ?Text {
-    Runtime.trap("not implemented");
+    mappings.get(managerId);
   };
 };
