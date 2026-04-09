@@ -1,0 +1,65 @@
+type UserRole = 
+ variant {
+   KITCHEN;
+   MANAGER;
+   SUPER_ADMIN;
+   WAITER;
+ };
+type User = 
+ record {
+   createdAt: int;
+   role: UserRole;
+   userId: principal;
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: Restaurant;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok: User;
+ };
+type RestaurantPublic = 
+ record {
+   description: text;
+   isActive: bool;
+   logoUrl: text;
+   name: text;
+   restaurantId: text;
+ };
+type Restaurant = 
+ record {
+   backgroundColor: text;
+   backgroundImageUrl: text;
+   city: text;
+   createdAt: int;
+   description: text;
+   isActive: bool;
+   logoUrl: text;
+   name: text;
+   pdfMenuUrl: text;
+   restaurantId: text;
+ };
+type Error = 
+ variant {
+   alreadyExists;
+   invalidInput: text;
+   notFound;
+   unauthorized;
+ };
+service : {
+  addRestaurant: (restaurant: Restaurant) -> (Result_2);
+  getCurrentUserRole: () -> (opt UserRole) query;
+  getLinkedRestaurant: () -> (opt Restaurant) query;
+  getRestaurantPublic: (restaurantId: text) -> (opt RestaurantPublic) query;
+  linkManagerToRestaurant: (managerId: principal, restaurantId: text) ->
+   (Result_1);
+  registerUser: (role: UserRole) -> (Result);
+}

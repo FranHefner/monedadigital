@@ -1,0 +1,33 @@
+{
+  "comingSoon": "Coming Soon",
+  "comingSoonDesc": "This module is under development. It will be available very soon.",
+  "manager": {
+    "title": "Manager Panel",
+    "description": "Manage your restaurant, menu, and settings from here."
+  },
+  "customer": {
+    "title": "Customer Menu",
+    "description": "Explore our restaurants' digital menus."
+  },
+  "waiter": {
+    "title": "Waiter View",
+    "description": "Manage your tables and customer orders."
+  },
+  "kitchen": {
+    "title": "Kitchen View",
+    "description": "View and manage incoming orders in real time."
+  },
+  "admin": {
+    "title": "Super Admin Panel",
+    "description": "Full control of the monedaDigital platform."
+  },
+  "menu": {
+    "title": "Restaurant Menu",
+    "description": "Scan the QR code at your table to view the menu.",
+    "loading": "Loading restaurant...",
+    "notFound": "Restaurant not found",
+    "notFoundDesc": "The restaurant you are looking for does not exist or is not available.",
+    "inactive": "Restaurant unavailable",
+    "inactiveDesc": "This restaurant is not currently active."
+  }
+}

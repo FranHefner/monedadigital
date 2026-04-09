@@ -1,0 +1,33 @@
+{
+  "comingSoon": "Próximamente",
+  "comingSoonDesc": "Este módulo está en desarrollo. Estará disponible muy pronto.",
+  "manager": {
+    "title": "Panel del Gerente",
+    "description": "Gestiona tu restaurante, menú y configuraciones desde aquí."
+  },
+  "customer": {
+    "title": "Menú del Cliente",
+    "description": "Explora el menú digital de nuestros restaurantes."
+  },
+  "waiter": {
+    "title": "Vista del Mesero",
+    "description": "Gestiona las mesas y pedidos de tus clientes."
+  },
+  "kitchen": {
+    "title": "Vista de Cocina",
+    "description": "Visualiza y gestiona los pedidos entrantes en tiempo real."
+  },
+  "admin": {
+    "title": "Panel Super Administrador",
+    "description": "Control total de la plataforma monedaDigital."
+  },
+  "menu": {
+    "title": "Menú del Restaurante",
+    "description": "Escanea el código QR en tu mesa para ver el menú.",
+    "loading": "Cargando restaurante...",
+    "notFound": "Restaurante no encontrado",
+    "notFoundDesc": "El restaurante que buscas no existe o no está disponible.",
+    "inactive": "Restaurante no disponible",
+    "inactiveDesc": "Este restaurante no está activo actualmente."
+  }
+}

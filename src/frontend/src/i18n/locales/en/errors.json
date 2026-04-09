@@ -1,0 +1,11 @@
+{
+  "generic": "Something went wrong. Please try again.",
+  "network": "Network error. Check your internet connection.",
+  "unauthorized": "You don't have permission to access this page.",
+  "notFound": "The page you're looking for doesn't exist.",
+  "roleNotAssigned": "Your account has no role assigned. Contact the administrator.",
+  "loginFailed": "Login failed. Please try again.",
+  "restaurantNotFound": "Restaurant not found.",
+  "restaurantInactive": "This restaurant is not currently available.",
+  "loadingFailed": "Failed to load information. Please try again."
+}

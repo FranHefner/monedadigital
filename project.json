@@ -1,0 +1,23 @@
+{
+  "overview": "monedaDigital is a modular platform for restaurants to offer digital menus via QR code. Customers scan a QR code at their table to instantly view the menu on their phone — no app download needed. Future modules will support ordering and cryptocurrency payments. The platform is free for businesses.",
+  "features": [
+    "Internet Identity authentication (production-ready)",
+    "Role-based access: SUPER_ADMIN, MANAGER, WAITER, KITCHEN",
+    "Restaurant data model with full profile fields",
+    "Public QR landing page showing restaurant name, logo, and description",
+    "Module placeholders: Manager Panel, Customer Menu, Waiter View, Kitchen View, Super Admin Panel",
+    "Full bilingual support: Spanish (default) and English with language switcher on every screen",
+    "Mobile-first clean design with brand colors #454C92 and #86CCA4"
+  ],
+  "category": "restaurant-hospitality",
+  "tags": [
+    "restaurant",
+    "digital-menu",
+    "qr-code",
+    "bilingual",
+    "internet-identity",
+    "modular",
+    "mobile-first"
+  ],
+  "last_updated": "2026-04-09T14:27:45.341Z"
+}

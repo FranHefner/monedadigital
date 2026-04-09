@@ -1,0 +1,30 @@
+{
+  "app": {
+    "name": "monedaDigital",
+    "tagline": "El menú digital de tu restaurante"
+  },
+  "nav": {
+    "home": "Inicio",
+    "menu": "Menú",
+    "dashboard": "Panel"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "close": "Cerrar",
+    "loading": "Cargando..."
+  },
+  "language": {
+    "spanish": "Español",
+    "english": "English",
+    "toggle": "Cambiar idioma"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "built": "Construido con"
+  }
+}

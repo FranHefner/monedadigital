@@ -1,0 +1,11 @@
+{
+  "generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
+  "network": "Error de red. Verifica tu conexión a internet.",
+  "unauthorized": "No tienes permiso para acceder a esta página.",
+  "notFound": "La página que buscas no existe.",
+  "roleNotAssigned": "Tu cuenta no tiene un rol asignado. Contacta al administrador.",
+  "loginFailed": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
+  "restaurantNotFound": "Restaurante no encontrado.",
+  "restaurantInactive": "Este restaurante no está disponible actualmente.",
+  "loadingFailed": "No se pudo cargar la información. Inténtalo de nuevo."
+}
